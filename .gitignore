@@ -1,0 +1,18 @@
+# Build output
+*.exe
+*.obj
+*.pdb
+*.ilk
+bench
+bench_gcc
+bench_clang
+bench_tsan
+
+# Python
+__pycache__/
+*.pyc
+
+# Never commit keys or local notes
+sk-*.txt
+*.key
+.env

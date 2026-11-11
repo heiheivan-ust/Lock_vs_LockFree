@@ -1,0 +1,48 @@
+date:            2026-11-10T07:01:09
+cpu:             AMD Ryzen 9 6900HX with Radeon Graphics
+physical cores:  8
+logical cores:   16
+smt:             yes - 8 physical cores with SMT (16 logical, 2 hardware threads per core). Runs with more than 8 threads place two threads on the same physical core (sharing its execution units and L1/L2 caches); runs with more than 16 threads oversubscribe the CPU (more threads than hardware threads).
+ram:             31.2 GB
+os:              Windows 11 Home 25H2 (build 26200.9711)
+power state:     plugged in (AC), battery 100%
+power plan:      plan '平衡' {381b4222-f694-41f0-9685-ff5bb260df2e}; power mode 'Best performance'
+idle before run: CPU busy 8.3% of all logical CPUs over 10 s; RAM available 21.5 of 31.2 GB (31% in use)
+compiler:        Microsoft (R) C/C++ Optimizing Compiler Version 19.37.32824 for x64; flags: /nologo /std:c++20 /O2 /DNDEBUG /EHsc /MD /W4 (compiler installed now; see binary line for when the binary was built)
+binary:          bench_runs1-3.exe, sha256 a667abd1a427454c0d5597580cdda8652e55b03b60afc752be0619d9e85ad5d4, file time 2026-10-19T03:18:09
+results file:    results_2026-11-10_070057_run4.csv
+python:          3.13.7
+thread counts:   1, 2, 4, 8, 16, 32, 64
+contention sets: at 16 threads, work in {0, 10, 100, 1000, 10000, 100000}: contention = counter {mutex, spinlock, atomic_faa}; contention_stack = stack {mutex, lockfree}; contention_queue = queue {mutex, lockfree}
+latency set:     latency_counter/_stack/_queue = all 8 variants with --latency at 1, 8, 16, 64 threads, work 0
+allocator sets:  stack_heap/queue_heap (--heap, `new` per node in the timed loop) at 1, 4, 16 threads; stack_pad64/queue_pad64 (--pad64, 64-byte node stride) at 16 threads; work 0
+backoff:         not run (no --backoff)
+node allocation: default = per-thread pool, pre-allocated and pre-touched before the start barrier (no allocation or page faults while timing); budget and stride below
+tsc / latency (measured by bench --tsc):
+    invariant_tsc: yes (CPUID 0x80000007 EDX bit 8)
+    tsc_frequency: 3293.7 MHz (TSC ticks vs steady_clock over 207 ms)
+    tsc_granularity: 1 ticks = 0.3 ns (smallest non-zero delta of back-to-back reads)
+    timer_overhead: empty timed region min 10.0 ns, median 20.0 ns (included in every latency sample, not subtracted)
+    latency_sampling: every 64th iteration per thread (1 in 64 operations timed); buffer ceil(16M / threads) + 1M samples per thread
+memory layout (bench --layout):
+    std::mutex       sizeof=80 alignof=8
+    MutexCounter     sizeof=128 alignof=64 value: offset=80 size=8
+    SpinlockCounter  sizeof=64 alignof=64 value: offset=8 size=8
+                       (lock flag `locked`: offset=0 size=1)
+    FaaCounter       sizeof=64 alignof=64 value: offset=0 size=8
+    CasCounter       sizeof=64 alignof=64 value: offset=0 size=8
+    MutexStack       sizeof=128 alignof=64 head: offset=80 size=8
+    TreiberStack     sizeof=64 alignof=64 head: offset=0 size=8
+    MutexQueue       sizeof=128 alignof=64 head: offset=80 size=8
+    MutexQueue       sizeof=128 alignof=64 tail: offset=88 size=8
+    MSQueue          sizeof=128 alignof=64 head: offset=0 size=8
+    MSQueue          sizeof=128 alignof=64 tail: offset=64 size=8
+    Node             sizeof=16 alignof=8; pool stride 16 bytes (default) or 64 (--pad64)
+    ThreadResult     sizeof=192 alignof=64
+    node budget      ceil(K * seconds / threads) + 1M nodes per thread (pool and retired array); K = 384M/s (1 thread), 128M/s (2), 32M/s (4+); e.g. 500 ms, 1 thread: 202375168 nodes
+reps:            7
+ms per run:      500
+runs total:      1022
+loop order:      for each rep -> for each configuration (interleaved)
+env:             background CPU during runs (% of all logical CPUs, per run): median 9.8, p90 13.4, max 49.6; runs above 5%: 1016 of 1022
+env:             available RAM before runs: min 21.1 GB, median 21.3 GB
